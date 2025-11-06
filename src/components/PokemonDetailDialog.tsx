@@ -4,24 +4,32 @@ import { Modal, Spin, Tag } from 'antd';
 import { useGetPokemonDetails } from 'src/hooks/useGetPokemons';
 import { tss } from 'src/tss';
 
+const MESSAGE = {
+  INVALID_ID: 'Invalid Pokémon ID. Correct the URL or select a Pokémon again.',
+  ERROR: 'Failed to load Pokémon details.',
+};
+
 export const PokemonDetailDialog = () => {
   const { id } = useParams<{ id: string }>();
-  const { data, loading, error } = useGetPokemonDetails(Number(id));
+  const isValidId = id && !Number.isNaN(Number(id));
   const navigate = useNavigate();
   const { classes } = useStyles();
+  const { data, loading, error } = useGetPokemonDetails(isValidId ? Number(id) : undefined);
 
   const handleClose = () => navigate('/list');
 
   let content = null;
 
-  if (loading) {
+  if (!isValidId) {
+    content = <div className={classes.center}>{MESSAGE.INVALID_ID}</div>;
+  } else if (loading) {
     content = (
       <div className={classes.center}>
         <Spin size="large" />
       </div>
     );
   } else if (error) {
-    content = <div className={classes.center}>Failed to load Pokémon details.</div>;
+    content = <div className={classes.center}>{MESSAGE.ERROR}</div>;
   } else if (data) {
     content = (
       <div className={classes.content}>
