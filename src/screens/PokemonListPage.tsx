@@ -1,6 +1,7 @@
 import React, { useState, useMemo } from 'react';
 import { tss } from '../tss';
 import { Input, Spin } from 'antd';
+import { useNavigate, Outlet } from 'react-router-dom';
 import { useGetPokemons } from 'src/hooks/useGetPokemons';
 import PokemonCard from 'src/components/PokemonCard';
 
@@ -11,6 +12,7 @@ const MESSAGE = {
 
 export const PokemonListPage = () => {
   const { classes } = useStyles();
+  const navigate = useNavigate();
   const { data, loading, error } = useGetPokemons();
   const [searchTerm, setSearchTerm] = useState('');
 
@@ -47,7 +49,11 @@ export const PokemonListPage = () => {
           {filteredData.length > 0 ? (
             filteredData.map((d) => (
               <div key={d.id}>
-                <PokemonCard pokemon={d} onClick={() => {}} data-testid={`pokemon-${d.id}`} />
+                <PokemonCard
+                  pokemon={d}
+                  onClick={() => navigate(`/list/${d.id}`)}
+                  data-testid={`pokemon-${d.id}`}
+                />
               </div>
             ))
           ) : (
@@ -55,6 +61,7 @@ export const PokemonListPage = () => {
           )}
         </div>
       </div>
+      <Outlet />
     </div>
   );
 };

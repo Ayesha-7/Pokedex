@@ -1,5 +1,5 @@
 import React from 'react';
-import { act, fireEvent, render } from 'src/test-utils';
+import { act, render } from 'src/test-utils';
 import { PokemonListPage } from './PokemonListPage';
 import { useNavigate } from 'react-router-dom';
 
@@ -25,7 +25,17 @@ describe('PokemonListPage', () => {
       await user.click(getByText('Bulbasaur'));
     });
 
-    expect(mockNavigate).toHaveBeenCalledWith(/* The route to Bulbasaur */);
+    expect(mockNavigate).toHaveBeenCalledWith('/list/1'); //The route to Bulbasaur
   });
-  test.todo('typing in the search bar filters the results');
+  test('typing in the search bar filters the results', async () => {
+    const { getByPlaceholderText, queryByText, user } = render(<PokemonListPage />);
+    const input = getByPlaceholderText('Search Pokémon');
+
+    await act(async () => {
+      await user.type(input, 'Charmander');
+    });
+
+    expect(queryByText('Bulbasaur')).not.toBeInTheDocument();
+    expect(queryByText('Charmander')).toBeInTheDocument();
+  });
 });
