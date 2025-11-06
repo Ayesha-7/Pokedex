@@ -6,6 +6,7 @@ export interface Pokemon {
   name: string;
   types?: string[];
   sprite?: string;
+  number?: string;
 }
 
 export interface PokemonDetail extends Pokemon {
@@ -93,6 +94,10 @@ export const useGetPokemons = (/* search?: string */): {
         (p): Pokemon => ({
           id: p.id,
           name: p.pokemonspecy.pokemonspeciesnames?.[0]?.name,
+          types:
+            p.pokemontypes?.map((t: any) => t?.type?.typenames?.[0]?.name)?.filter(Boolean) ?? [],
+          sprite: p.pokemonsprites?.[0]?.sprites ?? undefined,
+          number: p.id,
         }),
       ) ?? [],
     loading,
