@@ -1,15 +1,7 @@
 import { createTss } from 'tss-react';
+import { theme } from './theme';
 
 function useContext() {
-  const theme = {
-    color: {
-      surface: '#000E1C',
-      text: {
-        primary: '#FAFAFA',
-      },
-    },
-  };
-
   return { theme };
 }
 
