@@ -1,4 +1,5 @@
 import React from 'react';
+import { SpeedInsights } from '@vercel/speed-insights/react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { PokemonListPage } from './screens/PokemonListPage';
 import { LayoutWrapper } from './LayoutWrapper';
@@ -26,6 +27,7 @@ const App = () => (
         </Route>
       </Routes>
     </BrowserRouter>
+    <SpeedInsights />
   </ApolloProvider>
 );
 
